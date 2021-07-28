@@ -13,23 +13,21 @@ if [ ! -p $submodules ]; then
 fi
 
 # Install all used programs
-xbps-install -Sy \
+apt install -y \
     firefox-esr \
-    ImageMagick \
-    Vulkan-Headers \ 
-    Vulkan-Tools \
-    Vulkan-ValidationLayers \
+    imagemagick \
+    libvulkan-dev \ 
+    vulkan-validationLayers \
     autoconf \
     automake \
-    clang \
+    c++-compiler \
     cmake \
     ctags \
     ffmpeg \
     mpv \
-    gcc \
     gdb \
     gimp \
-    xorg-minimal \
+    xorg \
     xrandr \
     xsetroot \
     xfce4-screenshooter \
@@ -40,17 +38,17 @@ xbps-install -Sy \
     neovim \
     htop \
     neofetch \
-    texlive \
+    texlive-full \
     mupdf \
     nodejs \
     tor \
     thunderbird \
-    transmission \
+    transmission-cli \
     vagrant \
     barrier \
     libreoffice \
     python3 \
-    python2
+    python2 
 
 # Copy all .config files over
 if [[ ! -d "~/.config" ]]; then
