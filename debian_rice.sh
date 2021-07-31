@@ -1,44 +1,38 @@
 #/bin/sh
 MOD_PATH=./submodules
 
-# Check if the script is executed as root
-if [ "$EUID" -ne 0 ]; then
-    echo "Please run this script as a root"
-    exit
-fi
-
-if [ ! -p $submodules ]; then
+if [ -p "$MOD_PATH" ]; then
     echo "Please initialise git submodules"
     exit
 fi
 
 # Install all used programs
-apt install -y \
+doas apt install -y \
     firefox-esr \
     imagemagick \
-    libvulkan-dev \ 
-    vulkan-validationLayers \
+    libvulkan-dev \
+    vulkan-validationlayers \
     autoconf \
     automake \
-    c++-compiler \
+    clang \
+    gcc \
     cmake \
-    ctags \
+    feh \
     ffmpeg \
     mpv \
     gdb \
     gimp \
-    xorg \
-    xrandr \
-    xsetroot \
+    xserver-xorg-core \
     xfce4-screenshooter \
-    nvidia \
     pulseaudio \
     syncthing \
     vifm \
     neovim \
     htop \
     neofetch \
-    texlive-full \
+    libx11-dev \
+    libxft-dev \
+    libxinerama-dev \
     mupdf \
     nodejs \
     tor \
@@ -48,24 +42,29 @@ apt install -y \
     barrier \
     libreoffice \
     python3 \
-    python2 
+    python2 \
+    xinit
 
 # Copy all .config files over
-if [[ ! -d "~/.config" ]]; then
-    mkdir "~/.config"
+if [[ -d "~/.config" ]]; then
+    echo "Creating configuration directory"
+    mkdir -p "$(realpath ~/.config)"
 fi
 
 cp -r .config/* ~/.config
-cp -r ~/.config/nvim/sysinit.vim /usr/share/nvim/
+doas cp -r ~/.config/nvim/sysinit.vim /usr/share/nvim/
 cp -r .bashrc ~/
-cp -r .xinitrc ~/
+
+# Change wallpaper path in xinitrc accordingly
+CUR_PATH=$PWD/wallpapers
+cat .xinitrc | sed "s|#WPP|$CUR_PATH|g" > ~/.xinitrc
 
 # Compile and install dwm, st and dmenu
 cd $MOD_PATH/dwm
-make clean install
+doas make clean install
 cd ../st
-make clean install
-cd $MOD_PATH/dmenu
-make clean install
+doas make clean install
+cd ../dmenu
+doas make clean install
 
 echo "Rice done!"

@@ -1,0 +1,9 @@
+[submodule "submodules/st"]
+	path = submodules/st
+	url = https://github.com/inugami-dev64/st
+[submodule "submodules/dwm"]
+	path = submodules/dwm
+	url = https://github.com/inugami-dev64/dwm
+[submodule "submodules/dmenu"]
+	path = submodules/dmenu
+	url = https://github.com/inugami-dev64/dmenu

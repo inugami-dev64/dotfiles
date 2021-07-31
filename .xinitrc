@@ -1,4 +1,4 @@
 datebar &
 xcompmgr -c &
-feh --no-fehbg --bg-fill /home/karl/Pictures/eva.png /home/karl/Pictures/remu.jpg
+feh --no-fehbg --bg-fill #WPP/eva.png #WPP/remu.png
 exec dwm
