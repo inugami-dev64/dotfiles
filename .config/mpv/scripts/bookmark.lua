@@ -8,7 +8,7 @@ local options = require 'mp.options'
 local M = {}
 
 local o = {
-    save_period = 30
+    save_period = 10
 }
 options.read_options(o)
 
