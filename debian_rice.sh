@@ -2,7 +2,7 @@
 MOD_PATH="submodules"
 YT_DLP_VERSION=2021.07.24
 
-if [ -p "$MOD_PATH" ]; then
+if [ -n $(ls $MOD_PATH) ]; then
     echo "Please initialise git submodules"
     exit
 fi
@@ -74,7 +74,7 @@ doas mv yt-dlp /usr/local/bin/youtube-dl
 
 
 # Copy all .config files over
-if [[ -d "~/.config" ]]; then
+if [[ ! -d "~/.config" ]]; then
     echo "Creating configuration directory"
     mkdir -p "$(realpath ~/.config)"
 fi
