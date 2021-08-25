@@ -30,16 +30,36 @@ map <C-j> 2<C-e>
 map <C-k> 2<C-y>
 
 call plug#begin('~/.vim/plugged')
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'beyondmarc/hlsl.vim'
-Plug 'preservim/nerdcommenter'
-Plug 'itchyny/lightline.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'bfrg/vim-cpp-modern'
-Plug 'morhetz/gruvbox'
-Plug 'preservim/nerdtree'
-Plug 'altercation/vim-colors-solarized'
+    Plug 'norcalli/nvim-colorizer.lua'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'tikhomirov/vim-glsl'
+    Plug 'ackyshake/VimCompletesMe'
+    Plug 'beyondmarc/hlsl.vim'
+    Plug 'preservim/nerdcommenter'
+    Plug 'bfrg/vim-cpp-modern'
+    Plug 'itchyny/lightline.vim'
+    Plug 'morhetz/gruvbox'
+    Plug 'preservim/nerdtree'
+    Plug 'altercation/vim-colors-solarized'
 call plug#end()
+
+
+" Initialise clangd if possible
+if executable('clang')
+    augroup lsp_clangd
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->['clangd', '-header-insertion=never']},
+            \ 'whitelist': ['c', 'cpp'],
+        \ })
+
+        autocmd FileType c setlocal omnifunc=lsp#complete
+        autocmd FileType cpp setlocal omnifunc=lsp#complete
+    augroup end
+endif
+    
 
 " Change the leader key to space
 let mapleader = " "
