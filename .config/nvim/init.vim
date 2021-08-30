@@ -77,4 +77,6 @@ let NERDTreeShowHidden = 1
 let g:cpp_attributes_highlight = 1
 let g:cpp_member_highlight = 1
 
+" Include sortgroup script for sorting groups of data with ease
+runtime sortgroup.vim
 colorscheme gruvbox
