@@ -9,6 +9,7 @@ set nowrap
 set smartcase
 set noswapfile
 set nobackup
+set autoread
 set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
@@ -30,6 +31,7 @@ map <C-j> 2<C-e>
 map <C-k> 2<C-y>
 
 call plug#begin('~/.vim/plugged')
+    Plug 'makerj/vim-pdf'
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/vim-lsp'

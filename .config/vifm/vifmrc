@@ -9,8 +9,9 @@ colorscheme desert
 filetype *.jpg,*.jpeg,*.png,*.webp,*.tiff,*.bmp,*.tga,*.gif feh %f 2>/dev/null 1>/dev/null &
 filetype *.md5 md5sum -c %f
 filetype *.mp4,*.mkv,*.mp3,*.flac,*.webm,*.ogg,*.mov,*.webm mpv --force-window=yes %f 2>/dev/null 1>/dev/null &
-filetype *.pdf mupdf %f 2>/dev/null 1>/dev/null &
+filetype *.pdf zathura %f 2>/dev/null 1>/dev/null &
 filetype *.kdbx kpcli --kdb %c &
+filetype *.odp,*.pptx,*.odt,*.docx libreoffice %f 2>/dev/null 1>/dev/null &
 
 " File preview types using Überzug
 fileviewer *.pdf
