@@ -4,5 +4,4 @@ Inugami-dev64's personal dotfiles, configurations and initialisation scripts
 
 ## Getting started
 
-In order to get started run `<DISTRO>_rice.sh` file. These scripts will then check if needed programs are installed and copy 
-necessary configurations.
+In order to get started run `bootstrap.sh` script. This script will prompt the user about potential wallpapers that can be used and creates symlinks for config files.
