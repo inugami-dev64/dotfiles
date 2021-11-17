@@ -1,0 +1,4 @@
+datebar &
+xcompmgr -c &
+feh --no-fehbg --bg-fill #WPP/#PIC1 #WPP/#PIC2
+exec dwm
