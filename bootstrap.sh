@@ -55,6 +55,10 @@ link() {
     sudo ln -s $(realpath .config/nvim/sysinit.vim) /usr/share/nvim/
     ln -s $(realpath .bashrc) $(realpath ~/)
     ln -s $(realpath .xinitrc) $(realpath ~/)
+
+    # Install vim-plug
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 }
 
 
