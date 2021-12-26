@@ -58,6 +58,12 @@ link() {
 }
 
 
+# Copy vifmrun and vifmimg scripts to /usr/local/bin/
+make_vifmrun() {
+    sudo cp vifmrun/vifm* /usr/local/bin/
+}
+
+
 # Display all avaliable wallpapers to the user
 display_wallpapers() {
     echo "Available wallpapers are following: "
@@ -112,10 +118,18 @@ set_wallpaper() {
     esac
 }
 
+
+# Install all available fonts to /usr/share/fonts
+install_fonts() {
+    sudo cp -r fonts/* /usr/share/fonts/
+}
+
 sudo_check
 display_wallpapers
 prompt_wallpaper
 set_wallpaper $user_wp
 link
+install_fonts
+make_vifmrun
 
 echo "Done!"
