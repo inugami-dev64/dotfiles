@@ -2,7 +2,6 @@
 
 # All available themes
 WALLPAPERS=("Yui" "Asuka" "Remu" "Felix" "Landscape" "None")
-
 # This script assumes that two monitors are used
 YUI_PAPERS=("yui1.png" "yui2.png")
 ASUKA_PAPERS=("eva1.png" "eva2.png")
@@ -17,22 +16,12 @@ cat .xinitrc_template | sed -e "s|#WPP|$CUR_PATH|g" > .xinitrc
 RED="\033[1;31m"
 NO_COLOR="\033[0m"
 
-# Warn the user about two monitor only support 
-warn_prompt() {
-    printf "\033[1;31mWARNING! THIS SCRIPT ASSUMES THAT YOU HAVE TWO MONITORS!\033[0m\n"
-    read -p 'Proceed? (Y/n): ' confirm
-
-    if [[ "${confirm}" == "N" ]] || [[ "${confirm}" == "n" ]]; then
-        exit
-    fi
-}
-
 
 # Check if doas is present
 doas_check() {
-    DOAS_PATH=$(command -v doas)
-    if [ -z "$DOAS_PATH" ]; then
-        echo "Could not find doas executable, please install doas before continuing with the script!"
+    SUDO_PATH=$(command -v sudo)
+    if [ -z "$SUDO_PATH" ]; then
+        echo "Could not find sudo executable, please install sudo before continuing with the script!"
         exit
     fi
 }
@@ -124,7 +113,7 @@ set_wallpaper() {
 }
 
 warn_prompt
-doas_check
+sudo_check
 display_wallpapers
 prompt_wallpaper
 set_wallpaper $user_wp
