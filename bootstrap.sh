@@ -18,7 +18,7 @@ NO_COLOR="\033[0m"
 
 
 # Check if doas is present
-doas_check() {
+sudo_check() {
     SUDO_PATH=$(command -v sudo)
     if [ -z "$SUDO_PATH" ]; then
         echo "Could not find sudo executable, please install sudo before continuing with the script!"
@@ -112,7 +112,6 @@ set_wallpaper() {
     esac
 }
 
-warn_prompt
 sudo_check
 display_wallpapers
 prompt_wallpaper
