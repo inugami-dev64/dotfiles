@@ -17,7 +17,7 @@ RED="\033[1;31m"
 NO_COLOR="\033[0m"
 
 
-# Check if doas is present
+# Check if sudo is present
 sudo_check() {
     SUDO_PATH=$(command -v sudo)
     if [ -z "$SUDO_PATH" ]; then
@@ -37,7 +37,7 @@ link() {
     
     if [ -e /usr/share/nvim/sysinit.vim ]; then
         printf "${RED}Removing pre-existing /usr/share/nvim/sysinit.vim${NO_COLOR}\n"
-        doas rm /usr/share/nvim/sysinit.vim
+        sudo rm /usr/share/nvim/sysinit.vim
     fi
 
     if [ -e ~/.bashrc ]; then
@@ -52,7 +52,7 @@ link() {
 
 
     ln -s $(realpath .config) $(realpath ~/.config)
-    doas ln -s $(realpath .config/nvim/sysinit.vim) /usr/share/nvim/
+    sudo ln -s $(realpath .config/nvim/sysinit.vim) /usr/share/nvim/
     ln -s $(realpath .bashrc) $(realpath ~/)
     ln -s $(realpath .xinitrc) $(realpath ~/)
 }
