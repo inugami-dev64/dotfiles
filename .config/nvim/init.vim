@@ -48,7 +48,7 @@ call plug#end()
 
 
 " Initialise clangd if possible
-if executable('clang')
+if executable('clangd')
     augroup lsp_clangd
         autocmd!
         autocmd User lsp_setup call lsp#register_server({
