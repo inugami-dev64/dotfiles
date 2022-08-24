@@ -1360,3 +1360,12 @@ user_pref("security.pki.sha1_enforcement_level", 1); // [DEFAULT: 1 FF102+]
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
+
+// Enable adding custom search engines
+user_pref("browser.urlbar.update2.engineAliasRefresh", true);
+
+// Disable pocket
+user_pref("extensions.pocket.enabled", false);
+
+// Enable urlbar searches
+user_pref("keyword.enabled", true);
