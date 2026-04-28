@@ -1,5 +1,7 @@
 .config/nvim/undodir
 .config/*
+!.config/alacritty
+!.config/tmux
 !.config/mpv
 !.config/nvim
 !.config/vifm
