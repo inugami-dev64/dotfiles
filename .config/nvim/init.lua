@@ -5,7 +5,7 @@ vim.o.shiftwidth = 4
 vim.o.smartindent = true
 vim.o.nu = true
 vim.o.autoread = true
-vim.o.undodir = "~/.config/nvim/undodir"
+vim.o.undodir = vim.env.HOME.."/.config/nvim/undodir"
 vim.o.undofile = true
 
 -- Custom colorscheme
