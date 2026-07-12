@@ -1,7 +1,18 @@
 # Dotfiles
 
-Inugami-dev64's personal dotfiles, configurations and initialisation scripts
+Collection of dotfiles and utility scripts to setup the Linux system the way I like it the most.
+
+Currently works with following Linux distributions:
+- CachyOS
+- Arch linux
+- Fedora
+- Ubuntu
+- Debian
 
 ## Getting started
 
-In order to get started run `bootstrap.sh` script. This script will prompt the user about potential wallpapers that can be used and creates symlinks for config files.
+The quickest and the easiest way to get started is by running the provided `setup.sh` script. This script will then ask you to download a list of software that I have configuration files present for as well as configure the config file symlinks according to user prompt values.
+
+```bash
+$ ./install.sh
+```
