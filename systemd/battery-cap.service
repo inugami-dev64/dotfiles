@@ -1,0 +1,29 @@
+[Unit]
+Description=Cap battery charge threshold for Framework 13 laptop (NOTE: Requires framework_tool to be present)
+After=multi-user.target
+Before=shutdown.target
+StartLimitBurst=0
+
+[Service]
+Type=oneshot
+Restart=on-failure
+ExecStart=/usr/local/bin/batterycap start
+ExecStop=/usr/local/bin/batterycap stop
+
+# Lockdown
+LockPersonality=yes
+KeyringMode=private
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=no
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectSystem=full
+ProtectKernelLogs=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+RestrictSUIDSGID=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,142 @@
+#!/bin/sh
+
+# Battery charge limit values
+# When running on battery limit to 90%
+# otherwise 60% on AC power.
+NON_AC_LIMIT=90
+AC_LIMIT=60
+
+DMIDECODE=$(command -v dmidecode 2>/dev/null)
+
+# Read system metadata variables
+source /etc/profile.d/system-metadata.sh
+
+# Ensure that this script is being run as a root
+# and that dmidecode exists in the system
+if [ $(id -u) -ne 0 ]; then
+    echo "This script must be run as root!"
+    exit 127
+elif [ -z "$DMIDECODE" ]; then
+    echo "dmidecode executable was not found, please install it to your system!"
+    exit 127
+elif [ $? -ne 1 ]; then
+    echo "missing verb <start|stop>"
+    exit 127
+elif [ "$1" != "start" ] && [ "$1" != "stop" ]; then
+    echo "unknown verb '$1'"
+    exit 127
+fi
+
+# Set battery charge limit for Framework laptop
+# according to the battery charge status
+cap_start_framework_charge() {
+    FRAMEWORK_TOOL=$(command -v framework_tool 2>/dev/null)
+
+    # Check if the tool actually exists
+    if [ -z "$FRAMEWORK_TOOL" ]; then
+        echo "framework_tool command was not found, please install it first!"
+        exit 127
+    fi
+
+
+    # Is the battery charging or discharging
+    BAT_STATUS="$($FRAMEWORK_TOOL --power | grep -E --color=none ' +Battery ((dis)?charging)' | sed -r 's/^ +Battery ((dis)?charging)$/\1/g')"
+
+    # Set the limit accordingly
+    case $BAT_STATUS in
+        discharging|DISCHARGING)
+            $FRAMEWORK_TOOL --charge-limit $NON_AC_LIMIT
+            ;;
+        *)
+            $FRAMEWORK_TOOL --charge-limit $AC_LIMIT
+            ;;
+    esac
+}
+
+# Remove battery charge limit for Framework laptop
+cap_stop_framework_charge() {
+    FRAMEWORK_TOOL=$(command -v framework_tool 2>/dev/null)
+
+    # Check if the tool actually exists
+    if [ -z "$FRAMEWORK_TOOL" ]; then
+        echo "framework_tool command was not found, please install it first!"
+        exit 127
+    fi
+
+    $FRAMEWORK_TOOL --charge-limit 100
+}
+
+# Initialize battery charge limit for miscellaneous
+# laptops either either by /sys/class/power_supply/BAT*
+# modifications or by configuring TLP instead
+cap_start_charge() {
+    HAS_BAT_VARS=1
+    for bat in /sys/class/power_supply/BAT*; do
+        if [ ! -f "$bat/charge_stop_threshold" ]; then
+            HAS_BAT_VARS=0
+        fi
+    done
+
+    if [ $HAS_BAT_VARS -eq 0 ]; then
+        echo "No battery variables were found, configuring TLP instead"
+        systemctl disable --now tlp
+
+        bat_cfg=""
+        for bat in /sys/class/power_supply/BAT*; do
+            bat="$(echo "$bat" | sed -r 's/^.*\/(BAT[0-9]+)$/\1/g')"
+            if [ -n "$(upower -i "$(upower -e | grep --color=none $bat)" | grep -A3 -E --color=none '^ +battery' | grep -E --color=none '^ +state: +discharging')" ]; then
+                bat_cfg="${bat_cfg}
+START_CHARGE_THRESH_${bat}=0
+STOP_CHARGE_THRESH_${bat}=${NON_AC_LIMIT}"
+            else
+                bat_cfg="${bat_cfg}
+START_CHARGE_THRESH_${bat}=0
+STOP_CHARGE_THRESH_${bat}=${AC_LIMIT}"
+            fi
+        done
+        tlp_cfg="$(printf "%s\n%s" "$(cat /etc/tlp.conf)" "$bat_cfg")"
+        printf "%s\n" "$tlp_cfg" | tlp init start --
+        printf "%s\n" "$tlp_cfg" | tlp start --
+    fi
+}
+
+# Remove any charge limits 
+cap_stop_charge() {
+    HAS_BAT_VARS=1
+    for bat in /sys/class/power_supply/BAT*; do
+        if [ ! -f "$bat/charge_stop_threshold" ]; then
+            HAS_BAT_VARS=0
+        fi
+    done
+
+    if [ $HAS_BAT_VARS -eq 0 ]; then
+        echo "No battery variables were found, configuring TLP instead"
+        systemctl disable --now tlp
+        tlp stop init
+    else
+        for bat in /sys/class/power_supply/BAT*; do
+            echo 0 > "$bat/charge_start_threshold"
+            echo 100 > "$bat/charge_stop_threshold}"
+        done
+    fi
+}
+
+# Script entrypoint:
+case "$1" in
+    "start")
+        if [ "$MANUFACTURER" = "Framework" ]; then
+            cap_start_framework_charge
+        else
+            cap_start_charge
+        fi
+        ;;
+    *)
+        if [ "$MANUFACTURER" = "Framework" ]; then
+            cap_stop_framework_charge
+        else
+            cap_stop_charge
+        fi
+        ;;
+esac
+
+
