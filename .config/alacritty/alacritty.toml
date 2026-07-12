@@ -2,14 +2,14 @@
 TERM = "xterm-256color"
 WINIT_X11_SCALE_FACTOR = "1"
 
-# Start tmux with alacritty
-[terminal.shell]
-program = "tmux"
+# Uncomment to start tmux with alacritty
+# [terminal.shell]
+# program = "tmux"
 
 [window]
 dynamic_padding = true
 decorations = "full"
-title = "Alacritty@CachyOS"
+title = "Alacritty"
 opacity = 1
 decorations_theme_variant = "Dark"
 
