@@ -14,5 +14,5 @@ Currently works with following Linux distributions:
 The quickest and the easiest way to get started is by running the provided `setup.sh` script. This script will then ask you to download a list of software that I have configuration files present for as well as configure the config file symlinks according to user prompt values.
 
 ```bash
-$ ./install.sh
+$ ./setup.sh
 ```
