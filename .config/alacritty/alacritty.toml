@@ -2,9 +2,8 @@
 TERM = "xterm-256color"
 WINIT_X11_SCALE_FACTOR = "1"
 
-# Uncomment to start tmux with alacritty
-# [terminal.shell]
-# program = "tmux"
+[terminal.shell]
+program = "tmux"
 
 [window]
 dynamic_padding = true
@@ -21,9 +20,9 @@ lines = 30
 instance = "Alacritty"
 general = "Alacritty"
 
+# Disable scrolling altogether since we use tmux anyways
 [scrolling]
-history = 10000
-multiplier = 3
+history = 0
 
 [colors]
 draw_bold_text_with_bright_colors = true
@@ -71,15 +70,17 @@ style = "Italic"
 family = "monospace"
 style = "Bold Italic"
 
-[selection]
-semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
-save_to_clipboard = true
-
 [cursor]
-style = "Underline"
-vi_mode_style = "None"
 unfocused_hollow = true
 thickness = 0.15
+
+[cursor.style]
+shape = "Underline"
+blinking = "Always"
+
+[cursor.vi_mode_style]
+shape = "Underline"
+blinking = "Always"
 
 [mouse]
 hide_when_typing = true
